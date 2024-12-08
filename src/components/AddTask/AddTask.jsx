@@ -118,7 +118,7 @@ const AddTask = () => {
   const handleSelectAssignee = (assignee) => {
     setSelectedAssignee(assignee);
     setFieldValue("assignee", assignee._id);
-    setAssigneeQuery(assignee.username); // Update search query with selected assignee's username
+    setAssigneeQuery(assignee.username); // Update search 
     setSearchResults([]);
   };
 
