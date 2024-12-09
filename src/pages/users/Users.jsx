@@ -3,7 +3,6 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import FloatingWhatsApp from '../../components/FloatingWhatsApp/FloatingWhatsApp';
 import User from '../../components/User/User';
 import { Axios } from '../../config';
-import axios from "axios";
 import { useQuery } from '@tanstack/react-query';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PaginationControls from '../../components/PaginationControls/PaginationControls';
@@ -29,8 +28,8 @@ const Users = () => {
 
   const { isLoading, error, data } = useQuery({
     queryKey: ["users", currentPage, limit],
-    queryFn: async () => {
-      return (await Promise.resolve(axios.get(`https://testing-backend-azure.vercel.app/api/user?page=${currentPage}&lim/it=${limit}`))).data;
+    queryFn: () => {
+      return Axios.get(`https://testing-backend-azure.vercel.app/api/user?page=${currentPage}&limit=${limit}`).then((res) => res.data);
     },
     keepPreviousData: true,
   });
