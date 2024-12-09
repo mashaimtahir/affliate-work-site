@@ -13,10 +13,31 @@ import upload from "../../libs/upload";
 import Webcam from "react-webcam";
 import { AiOutlineCamera } from "react-icons/ai";
 
+const ImagePreview = ({ image, onClose }) => {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="relative max-w-4xl w-full">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75"
+        >
+          ✕
+        </button>
+        <img
+          src={image}
+          alt="Preview"
+          className="w-full h-auto max-h-[90vh] object-contain"
+        />
+      </div>
+    </div>
+  );
+};
+
 const Register = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false); // Add state for popup visibility
+  const [previewImage, setPreviewImage] = useState(null);
   const initialValues = {
     username: "",
     birthdate: null,
@@ -175,10 +196,20 @@ const Register = () => {
     setFieldValue("skills", updatedSkills);
   };
 
+  const handlePreviewImage = (imageSrc) => {
+    setPreviewImage(imageSrc);
+  };
+
   const { webcamRef, capture, isCameraOpen, openCamera, removeImage } = handleCapture(setFieldValue);
 
   return (
     <div className="py-24 lg:py-40 pb-10">
+      {previewImage && (
+        <ImagePreview
+          image={previewImage}
+          onClose={() => setPreviewImage(null)}
+        />
+      )}
       <div className="contain">
         {showPopup && (
          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -441,7 +472,8 @@ const Register = () => {
                     <img
                       src="../../Sample-Images/Profile-pic-sample.png" 
                       alt="Sample Profile Pic"
-                      className="w-full h-auto object-cover border border-gray-300"
+                      className="w-full h-auto object-cover border border-gray-300 cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => handlePreviewImage("../../Sample-Images/Profile-pic-sample.png")}
                     />
                   </div>
                 )}
@@ -667,9 +699,15 @@ const Register = () => {
                       <div className="mt-4">
                         <p className="text-sm font-medium text-darkColor">Sample Images:</p>
                         <div className="flex flex-col md:flex-row space-x-4 mt-4">
-                          <img src="../../Sample-Images/Sample1.jpg" alt="Sample 1" className="w-32 h-32 rounded"/>
-                          <img src="../../Sample-Images/Sample2.jpg" alt="Sample 2" className="w-32 h-32 rounded"/>
-                          <img src="../../Sample-Images/Sample3.jpg" alt="Sample 3" className="w-32 h-32 rounded"/>
+                          {["Sample1.jpg", "Sample2.jpg", "Sample3.jpg"].map((sample, index) => (
+                            <img
+                              key={index}
+                              src={`../../Sample-Images/${sample}`}
+                              alt={`Sample ${index + 1}`}
+                              className="w-32 h-32 rounded cursor-pointer hover:opacity-80 transition-opacity"
+                              onClick={() => handlePreviewImage(`../../Sample-Images/${sample}`)}
+                            />
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -725,7 +763,8 @@ const Register = () => {
                     <img
                       src="../../Sample-Images/Cnic-Sample.png" 
                       alt="Sample ID Card Front"
-                      className="w-full h-64 object-cover border border-gray-300 "
+                      className="w-full h-64 object-cover border border-gray-300 cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => handlePreviewImage("../../Sample-Images/Cnic-Sample.png")}
                     />
                   </div>
                 )}
@@ -764,7 +803,8 @@ const Register = () => {
                     <img
                       src="../../Sample-Images/Cnic-Sample.png" 
                       alt="Sample ID Card Back"
-                      className="w-full h-64 object-cover border border-gray-300"
+                      className="w-full h-64 object-cover border border-gray-300 cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => handlePreviewImage("../../Sample-Images/Cnic-Sample.png")}
                     />
                   </div>
                 )}
@@ -817,7 +857,8 @@ const Register = () => {
                     <img
                       src="../../Sample-Images/Live-selfie-sample.jpg" 
                       alt="Live Sample Pic"
-                      className="w-full h-[500px] object-cover border border-gray-300"
+                      className="w-full h-[500px] object-cover border border-gray-300 cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => handlePreviewImage("../../Sample-Images/Live-selfie-sample.jpg")}
                     />
                   </div>
                   )}
