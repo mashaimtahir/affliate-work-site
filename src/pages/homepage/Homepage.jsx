@@ -12,12 +12,13 @@ import Projects from "../../components/HomeComponents/Projects/Projects";
 import { useQuery } from "@tanstack/react-query";
 import { Axios } from "../../config";
 import requests from "../../libs/request";
+import axios from "axios";
 import loader from "../../assets/icons/loader.svg";
 
 const Homepage = () => {
   const { isLoading, error, data } = useQuery({
     queryKey: ["gigs"],
-    queryFn: () => Axios.get(requests.gigs).then((res) => res.data),
+    queryFn: () => axios.get('https://testing-backend-rose.vercel.app/').then((res) => res.data),
   });
 
   return (
